@@ -22,9 +22,8 @@ public static class ProceduralTexture
     public static Texture2D CreateTexture()
     {
         Color32[] palette = CreatePalette(4);
-        Debug.Log($"Color palette sample: {palette[0].r},{palette[0].g},{palette[0].b}   {palette[1].r},{palette[1].g},{palette[1].b}");
 
-        Texture2D texture = new Texture2D(16, 16); // size x y
+        Texture2D texture = new Texture2D(8, 8); // size x y
         for (int x = 0; x < texture.width/2; x++)
         {
             for (int y = 0; y < texture.height; y++)
