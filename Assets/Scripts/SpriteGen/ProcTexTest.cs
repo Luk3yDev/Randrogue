@@ -10,6 +10,19 @@ public class ProcTexTest : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
+        RandSprite();
+    }
+
+    void Update()
+    {
+        if (Input.GetButtonDown("Jump"))
+        {
+            RandSprite();
+        }
+    }
+
+    void RandSprite()
+    {
         Texture2D texture = ProceduralTexture.CreateTexture();
 
         Rect rect = new Rect(0, 0, texture.width, texture.height);
