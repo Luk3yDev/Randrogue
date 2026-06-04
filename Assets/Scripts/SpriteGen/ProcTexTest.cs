@@ -9,25 +9,16 @@ public class ProcTexTest : MonoBehaviour
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-
         RandSprite();
-    }
-
-    void Update()
-    {
-        if (Input.GetButtonDown("Jump"))
-        {
-            RandSprite();
-        }
     }
 
     void RandSprite()
     {
-        Texture2D texture = ProceduralTexture.CreateTexture();
+        Texture2D texture = ProceduralTexture.CreateTexture(ProceduralTexture.TextureStyle.MirrorX, 8, true);
 
         Rect rect = new Rect(0, 0, texture.width, texture.height);
         Vector2 pivot = new Vector2(0.5f, 0.5f);
-        float pixelsPerUnit = 16f;
+        float pixelsPerUnit = 8f;
 
         spriteRenderer.sprite = Sprite.Create(texture, rect, pivot, pixelsPerUnit);
     }

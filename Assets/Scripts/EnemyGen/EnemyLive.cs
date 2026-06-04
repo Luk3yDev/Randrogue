@@ -8,6 +8,7 @@ public class EnemyLive : MonoBehaviour
     ProceduralBehaviour.DNA dna;
 
     float gimbleDecision;
+    Vector2 wiggleDecision;
 
     void ApplyDNA()
     {
@@ -29,10 +30,14 @@ public class EnemyLive : MonoBehaviour
     {
         gimbleDecision = Mathf.PerlinNoise(transform.position.x * transform.rotation.z, 
                                            transform.position.y * transform.rotation.z);
+
+        wiggleDecision = new Vector2(Mathf.PerlinNoise(gimbleDecision * rb.velocity.y, gimbleDecision * rb.velocity.x)*Random.Range(-1f,1f),
+                                     Mathf.PerlinNoise(gimbleDecision * rb.velocity.x, gimbleDecision * rb.velocity.y)*Random.Range(-1f,1f));
     }
 
     private void FixedUpdate()
     {
         rb.angularVelocity += dna.gimble * gimbleDecision;
+        rb.velocity += wiggleDecision;
     }
 }
