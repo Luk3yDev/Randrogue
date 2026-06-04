@@ -38,6 +38,6 @@ public class EnemyLive : MonoBehaviour
     private void FixedUpdate()
     {
         rb.angularVelocity += dna.gimble * gimbleDecision;
-        rb.velocity += wiggleDecision;
+        rb.velocity += dna.acceleration * wiggleDecision;
     }
 }
