@@ -1747,6 +1747,7 @@ MonoBehaviour:
   groundTilemap: {fileID: 1284123619}
   SIZEX: 128
   SIZEY: 128
+  iterations: 1000000
   amplitude: {x: 0.35, y: 0.55}
   frequency: {x: 0.05, y: 0.15}
   threshold: {x: 0.1, y: 0.2}
