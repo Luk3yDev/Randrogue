@@ -73,58 +73,8 @@ public class MapGenerator : MonoBehaviour
             tilePalette[i] = ProceduralTile.CreateTile();
         }
 
-        //PerlinMethod();
-
-        int[,] mapData = new int[SIZEX,SIZEY];
-
-        int love = Random.Range(1,8); // cell rules
-        int hate = Random.Range(1,8);
-
-        for (int x = 0; x < SIZEX; x++) // 1. NOISE
-        {
-            for (int y = 0; y < SIZEY; y++)
-            {
-                mapData[x,y] = Random.Range(0, tilePalette.Length+1);
-            }
-        }
-        int[,] buffer = mapData; // create buffer to remove bias
-        for (int i = 0; i < iterations; i++) // 2. APPLY RULES
-        {
-            if (Random.Range(0, 5) == 0)
-            {
-                love = Random.Range(1,8);
-                hate = Random.Range(1,8); // reroll rules sometimes
-            }
-
-            for (int x = 0; x < SIZEX; x++)
-            {
-                for (int y = 0; y < SIZEY; y++)
-                {
-                    int me = mapData[x,y];
-                    int n = GetNeighbours(mapData, x, y, me);
-
-                    if (me != 0)
-                    {
-                        if (n > hate && n < love) buffer[x,y] = 0;
-                    }
-                    else
-                    {
-                        if (n < hate && n > love) buffer[x,y] = me;
-                    }
-                }
-            }
-        }
-        mapData = buffer; // swap buffers
-        for (int x = 0; x < SIZEX; x++) // 3. TILEMAP
-        {
-            for (int y = 0; y < SIZEY; y++)
-            {
-                Vector3Int tilepos = new Vector3Int(x, y, 0);
-
-                if (mapData[x,y] != 0)
-                    groundTilemap.SetTile(tilepos, tilePalette[mapData[x,y]-1]);
-            }
-        }
+        PerlinMethod();
+        //CellMethod();
     }
 
     void PerlinMethod()
@@ -155,6 +105,60 @@ public class MapGenerator : MonoBehaviour
                 {
                     groundTilemap.SetTile(tilepos, tilePalette[tile]);
                 }
+            }
+        }
+    }
+
+    void CellMethod()
+    {
+        int[,] mapData = new int[SIZEX, SIZEY];
+
+        int love = Random.Range(1, 8); // cell rules
+        int hate = Random.Range(1, 8);
+
+        for (int x = 0; x < SIZEX; x++) // 1. NOISE
+        {
+            for (int y = 0; y < SIZEY; y++)
+            {
+                mapData[x, y] = Random.Range(0, tilePalette.Length + 1);
+            }
+        }
+        int[,] buffer = mapData; // create buffer to remove bias
+        for (int i = 0; i < iterations; i++) // 2. APPLY RULES
+        {
+            if (Random.Range(0, 5) == 0)
+            {
+                love = Random.Range(1, 8);
+                hate = Random.Range(1, 8); // reroll rules sometimes
+            }
+
+            for (int x = 0; x < SIZEX; x++)
+            {
+                for (int y = 0; y < SIZEY; y++)
+                {
+                    int me = mapData[x, y];
+                    int n = GetNeighbours(mapData, x, y, me);
+
+                    if (me != 0)
+                    {
+                        if (n > hate && n < love) buffer[x, y] = 0;
+                    }
+                    else
+                    {
+                        if (n < hate && n > love) buffer[x, y] = me;
+                    }
+                }
+            }
+        }
+        mapData = buffer; // swap buffers
+        for (int x = 0; x < SIZEX; x++) // 3. TILEMAP
+        {
+            for (int y = 0; y < SIZEY; y++)
+            {
+                Vector3Int tilepos = new Vector3Int(x, y, 0);
+
+                if (mapData[x, y] != 0)
+                    groundTilemap.SetTile(tilepos, tilePalette[mapData[x, y] - 1]);
             }
         }
     }
